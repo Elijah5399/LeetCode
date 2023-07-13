@@ -19,7 +19,7 @@ class Solution {
             curr -= popped * (n - 1);
             curr += (sum - popped);
             l.addFirst(popped);
-            System.out.println("curr is: " + curr);
+            //System.out.println("curr is: " + curr);
             max = Math.max(max, curr);
         }
         return max;
