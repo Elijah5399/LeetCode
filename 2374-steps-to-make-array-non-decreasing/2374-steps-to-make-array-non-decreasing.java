@@ -1,17 +1,23 @@
 class Solution {
     public int totalSteps(int[] nums) {
-        //use a monotonic non-decreasing stack
-        //iterate backwards
-        int[] dp = new int[nums.length];
-        Stack<int[]> stk = new Stack<>();
+        //use a monotonic decreasing stack
+        //iterate forwards
+        Stack<int[]> s = new Stack<>();
+        s.push(new int[]{nums[0], 0});
         int max = 0;
-        for (int i = nums.length - 1; i >= 0; i--) {
-            int elem = nums[i];
-            while (!stk.isEmpty() && elem > stk.peek()[0]) {
-                dp[i] = Math.max(dp[i] + 1, dp[stk.pop()[1]]);
-                max = Math.max(max, dp[i]);
+        for (int i = 1; i < nums.length; i++) {
+            int time = 0;
+            while (!s.isEmpty() && s.peek()[0] <= nums[i]) {
+                time = Math.max(time, s.peek()[1]);
+                s.pop();
             }
-            stk.push(new int[]{elem, i});
+            if (s.isEmpty()) {
+                time = 0;
+            } else {
+                time++;
+            }
+            max = Math.max(max, time);
+            s.push(new int[]{nums[i], time});
         }
         return max;
     }
