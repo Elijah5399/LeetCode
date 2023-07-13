@@ -3,7 +3,6 @@ class Solution {
         if (nums.length < 3) {
             return false;
         }
-        //use a decreasing stack to store the max values
         Stack<Integer> s = new Stack<>();
         int[] min = new int[nums.length]; //stores minimum elements up till that index
         min[0] = nums[0];
@@ -21,12 +20,30 @@ class Solution {
                 if (!s.isEmpty() && s.peek() < nums[i]) {
                     return true;
                 }
-                s.push(nums[i]);
+                if (s.isEmpty() || nums[i] <= s.peek()) {
+                    s.push(nums[i]);
+                }
+                
             }
         }
         return false;
     }
 }
+
+/*
+How the stack works:
+-Iterate backwards thru array and manipulate the stack along the way
+-Ensure that all elements in the stack are > min[i]. Then, our best bet for nums[k] is 
+the smallest of all these elements.
+-If this elem is smaller than nums[j], we have found a 132 pattern. otherwise, 
+we add the current element and continue
+-Assume stack is sorted in non-asc order (smallest on top)
+-If nums[i] == min[i], it will never be the 2 element! so don't add it to the stack
+-If nums[i] > min[i], pop the stack until we find the head is > min[i].
+-After popping, all elems in stack are guaranteed to be > nums[i] (or min[j])
+-
+*/
+
 
 //[0,2,3,5,1,2] 
 //[1,1,1,1,1,1]
